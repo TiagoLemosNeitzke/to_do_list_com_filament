@@ -12,14 +12,13 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('to_receive', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('task_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->date('scheduled_for_day');
+            $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->string('service_value'); // valor que o cliente me deve
             $table->smallInteger('status')->default(1);
-            $table->string('service_value');
-            $table->date('did_day')->nullable();
-
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('to_receive');
     }
 };
